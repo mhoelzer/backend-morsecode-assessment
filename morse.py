@@ -49,9 +49,28 @@ def find_mult(bits):
 
 def decodeBits(bits):
     """Translate a string of 1's & 0's to dots and dashes"""
-    raise NotImplementedError("Please implement this")
+    # for the trailing/extra zeros
+    bits = bits.strip("0")
+    # for no 0s/min() arg of min_zeros is empty
+    if "0" not in bits:
+        return "."
+    # split on 1 and 0 to see te stuff
+    ones_bits = bits.split("0")
+    zeros_bits = bits.split("1")
+    # get len and find min to have that be mlitplier to multiply the 1 and 0 by to get the stuff
+    min_ones = min([len(ones) for ones in ones_bits if ones])
+    # ^^^ the if is needed b/c "" is also in the ones/zeros_bits
+    min_zeros = min([len(zeros) for zeros in zeros_bits if zeros])
+    minny = min(min_ones, min_zeros)  # b/c they might be diff mins
+    return bits.replace("0000000" * minny, "   ").replace("111" * minny, "-").replace("000" * minny, " ").replace("1" * minny, ".").replace("0" * minny, "")
 
 
 def decodeMorse(morse_code):
     """Translates a string of dots and dashes to human readable text"""
-    raise NotImplementedError("Please implement this")
+    unmorsed = ""
+    for word in morse_code.split("   "):
+        for letter in word.split():
+            unmorsed += MORSE_CODE[letter]
+        unmorsed += " "
+    print(unmorsed.strip())
+    return unmorsed.strip()
